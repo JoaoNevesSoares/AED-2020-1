@@ -39,27 +39,21 @@ void remover(char **string,char *word){
 }
 void adicionar(char **string){
 
-    char *word = (char *)malloc(50);
-    char *temp;
+    char *word = (char *)malloc(50*sizeof(char));
+    char *temp=NULL;
     scanf("%s",word);
-    strcat(word,"/");
     int word_len = strlen(word);
+    strcat(word,"/");
+    
     if(*string==NULL){
-        *string=(char *)malloc(word_len);
+        *string=(char *)malloc(word_len*sizeof(char));
         strcat(*string,word);
     }
     else{
         int str_len = strlen(*string);
-        temp = (char*)realloc(*string,str_len+word_len);
-        
-        if(temp == NULL){
-            printf("error");
-        }
-        else{
-        
+        //temp = (char*)realloc(*string,str_len+word_len);
         *string = (char*)realloc(*string,str_len+word_len);
         strcat(*string,word);
-        }
     }
     free(word);
 }
@@ -95,6 +89,8 @@ int main(){
             break;
         case 'a':
             adicionar(&string_hold);
+            free(string_hold);
+
             break;
 
         case 'r':
@@ -113,7 +109,7 @@ int main(){
          printf("--->MENU DE OPÇÕES<---\nL ---> listar\na ---> Adicionar nome\nr ---> Remover nome (digitar o nome)\ns ---> Sair do programa\n");
 
     }
-
+    
 
 
 
