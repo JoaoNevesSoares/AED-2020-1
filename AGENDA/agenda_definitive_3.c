@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-
+//Nodos da lista
 struct Node{
 
     char nome[50];
@@ -18,6 +18,7 @@ struct List{
 
 };
 
+//Buffer principal do código
 struct Agenda{
 
     char nome_holder[50];
@@ -28,16 +29,18 @@ struct Agenda{
     int int_holder;
     int int_holder_2;
 };
-
 void append_sort_alfa(struct List* list,struct Node* new_node);
 struct List* sort_list(struct Agenda* agenda);
 void sort_menu_sort(struct Agenda* agenda);
 
+//aloca uma lista na memoria e retorna o endereço
 struct List* create_list(){
 
     struct List* tmp = (struct List*)malloc(1*sizeof(struct List));
     return tmp;
 }
+
+//Cria um novo node contendo um nome
 struct Node* new_node(char* nome){
 
     struct Node* tmp = (struct Node*)malloc(1*sizeof(struct Node));
@@ -46,6 +49,7 @@ struct Node* new_node(char* nome){
     return tmp;
 }
 
+//Adiciona elementos na lista
 void append(struct Agenda* agenda,struct Node* new_node){
 
     agenda->traverse = agenda->reference->head_ref;
@@ -61,7 +65,8 @@ void append(struct Agenda* agenda,struct Node* new_node){
     agenda->reference->last_ref = agenda->traverse->next;
     return;
 }
-//ALTERAR
+
+//Imprime a lista
 void show_list(struct Node* traverse){
 
     if(traverse == NULL){
@@ -73,6 +78,7 @@ void show_list(struct Node* traverse){
     }
 }
 
+//busca na lista
 struct Node* search(struct Agenda* agenda, char nome[]){ 
     agenda->traverse = agenda->reference->head_ref;
 
@@ -80,6 +86,8 @@ struct Node* search(struct Agenda* agenda, char nome[]){
         agenda->traverse = agenda->traverse->next;
         return agenda->traverse;
 }
+
+//remove um nome da lista
 void remove_nome(struct Agenda* agenda,char nome[]){
     if(agenda->reference->head_ref == NULL){
         printf("A lista está vazia\n");
@@ -104,6 +112,7 @@ void remove_nome(struct Agenda* agenda,char nome[]){
     printf("Nome removido com sucesso\n");
     free(agenda->tmp);
 }
+//Menu do Main
 int menu(struct Agenda* agenda){
     printf("digite a operação que deseje:\n");
         printf("0-Sair da Agenda\n");
@@ -116,15 +125,18 @@ int menu(struct Agenda* agenda){
         system("clear"); //remover depois
         return agenda->int_holder;
 }
+//Menu da opção SORT
 void sort_menu(){
 
     printf("MENU DE ORDENAÇÃO\n");
     printf("1-Não ordernar\n");
     printf("2-Ordenar em ordem alfabética\n");
-    printf("3-Ordenar por quantidade de letras (crescente)\n\n");
+    printf("3-Ordenar por quantidade de letras (crescente)\n");
     printf("4-Ordenar trocando posição de 2 nomes da agenda\n");
     printf("5-Ordem alfabética inversa\n");
 }
+
+//Libera elemento da Lista
 void free_list(struct Agenda* agenda){
 
     while(agenda->reference->head_ref !=NULL){
@@ -175,6 +187,7 @@ int main(){
                 search(agenda,agenda->nome_holder);
                 if(agenda->traverse == NULL){
                     printf("Nome não encotrado E/OU lista vazia\n");
+                    return;
                 }
                 else{
                     printf("Nome:%s encontrado!\n",agenda->traverse->nome);
@@ -189,7 +202,7 @@ int main(){
     free_list(agenda);
     free(agenda);
 }
-
+//Ordena em ord.alfabética usando método por inserção
 void append_sort_alfa(struct List* list,struct Node* new_node){
 
     struct Node* current;
@@ -219,6 +232,7 @@ void append_sort_alfa(struct List* list,struct Node* new_node){
     for( ;traverse->next !=NULL;traverse=traverse->next);
     list->last_ref = traverse;
 }
+//Ordena por tamanho usando método inserção
 void append_sort_length(struct List* list,struct Node* new_node){
 
     struct Node* current;
@@ -246,6 +260,7 @@ void append_sort_length(struct List* list,struct Node* new_node){
     for( ;traverse->next !=NULL;traverse=traverse->next);
     list->last_ref = traverse;
 }
+//função de ordenar
 void insertion_sort(struct Agenda* agenda, int i){
     agenda->aux = create_list();
         agenda->traverse = agenda->reference->head_ref;
@@ -257,6 +272,7 @@ void insertion_sort(struct Agenda* agenda, int i){
         }
         agenda->reference = agenda->aux;
 }
+
 void sort_menu_sort(struct Agenda* agenda){
 
     sort_menu();
@@ -390,71 +406,7 @@ void sort_menu_sort(struct Agenda* agenda){
              
              }
             
-            /*
-            if(agenda->tmp->prev == NULL){
-                agenda->reference->head_ref = agenda->tmp;
-            }
-            else{
-                keep_trv_prev->next = agenda->tmp;
-            }
-            if(agenda->tmp->next == NULL){
-                agenda->reference->last_ref = agenda->tmp;
-            }
-            /*else{
-                agenda->tmp->next->prev = agenda->tmp;
-            }
-            if(agenda->traverse->prev == NULL){
-                agenda->reference->head_ref = agenda->traverse;
-            }
-            /*else{
-                agenda->traverse->prev->next = agenda->traverse;
-            }
-            if(agenda->traverse->next == NULL){
-                agenda->reference->last_ref = agenda->traverse;
-            }
-            else{
-                agenda->traverse->next->prev = agenda->traverse;
-            }
-
-            //tmp anterior agora aponta para traverse anterior e traverse anterior próximo aponta para tmp
-            agenda->tmp->prev = agenda->traverse->prev;
-            if( agenda->traverse->prev !=NULL){
-            agenda->tmp->prev->next = agenda->tmp;
-            }
-            else{
-                agenda->reference->head_ref = agenda->tmp;
-            }
-            //troca realizada
-
-            //traverse anterior aponta para keep(nodo anterior de prev antes da troca)
-            //keep próximo aponta para traverse
-            agenda->traverse->prev = keep;
-            if(keep!=NULL){
-            keep->next = agenda->traverse;
-            }
-            else{
-                agenda->reference->head_ref = agenda->traverse;
-            }
-            //troca realizada
             
-            //swap tmp next && traverse next
-            keep = agenda->tmp->next;
-            if(agenda->traverse->next == NULL){
-                agenda->tmp->next = NULL;
-                agenda->reference->last_ref = agenda->tmp;
-            }
-            else{
-            agenda->tmp->next = agenda->traverse->next;
-            agenda->traverse->next->prev = agenda->tmp;
-            agenda->traverse->next = keep;
-            if(keep !=NULL){
-                keep->prev = agenda->traverse;
-            }
-            else{
-                agenda->reference->last_ref = agenda->traverse;
-            }
-            
-            }*/
             
         }
         system("clear");
