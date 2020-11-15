@@ -3,7 +3,7 @@ Disciplina: Algoritmos e estruturas de dados - UFPEL - Ciência da Computação
 Turma: M51
 
 Instruções: Utilizar o arquivo Makefile para compilar os demais arquivos do diretório
-no terminal do Linux, após executar o comando ./agenda para executar o programa.
+no terminal do Linux, executar o comando ./agenda para executar o programa.
 Opção 2: Caso houver falhas com a linkedição do arquivo Makefile, compilar com gcc/clang separadamente o arquivo contido dentro do diretório ALTERNATIVE
 
 
